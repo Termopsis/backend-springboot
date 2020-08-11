@@ -1,5 +1,7 @@
 package ru.javabegin.tasklist.backendspringboot.controller;
 
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.javabegin.tasklist.backendspringboot.entity.Category;
@@ -26,6 +28,11 @@ public class CategoryController {
         List<Category> list = categoryRepository.findAll();
         return list;
 
+    }
+
+    @PostMapping("/add")
+    public void AddCategory(@RequestBody Category category){
+        categoryRepository.save(category);
     }
 
 }
