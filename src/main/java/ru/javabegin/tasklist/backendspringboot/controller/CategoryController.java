@@ -25,12 +25,9 @@ public class CategoryController {
         this.categoryRepository = categoryRepository;
     }
 
-    @RequestMapping("/testCategory")
-    public List<Category> testCategory(){
-
-        List<Category> list = categoryRepository.findAll();
-        return list;
-
+    @GetMapping("/all")
+    public List<Category> findAll() {
+        return categoryRepository.findAllByOrderByTitleAsc();
     }
 
     @PostMapping("/add")
