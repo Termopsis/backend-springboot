@@ -64,7 +64,7 @@ public class PriorityController {
             return new ResponseEntity("miss param color", HttpStatus.NOT_ACCEPTABLE);
         }
 
-        return new ResponseEntity(HttpStatus.OK);
+        return ResponseEntity.ok(priorityRepository.save(priority));
     }
 
     @GetMapping("/id/{id}")
@@ -85,7 +85,6 @@ public class PriorityController {
     @DeleteMapping("/delete/id/{id}")
     public ResponseEntity<Priority> deleteById(@PathVariable Long id){
         System.out.println("PriorityController: deleteById -------------------------------------------------");
-        Priority priority = null;
 
         try {
             priorityRepository.deleteById(id);

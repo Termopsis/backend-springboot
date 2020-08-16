@@ -58,7 +58,7 @@ public class CategoryController {
             return new ResponseEntity("miss param title", HttpStatus.NOT_ACCEPTABLE);
         }
 
-        return new ResponseEntity(HttpStatus.OK);
+        return ResponseEntity.ok(categoryRepository.save(category));
     }
 
     @GetMapping("find/id/{id}")
@@ -80,7 +80,6 @@ public class CategoryController {
     @DeleteMapping("/delete/id/{id}")
     public ResponseEntity<Category> deleteById(@PathVariable Long id){
         System.out.println("categoryRepository: deleteById -------------------------------------------------");
-        Category category = null;
 
         try {
             categoryRepository.deleteById(id);
