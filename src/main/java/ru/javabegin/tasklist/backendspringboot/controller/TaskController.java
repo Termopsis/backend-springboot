@@ -46,7 +46,7 @@ public class TaskController {
         }
 
         //Не указано обязательное поле title
-        if (task.getTitle() == null && task.getTitle().trim().length() == 0){
+        if (task.getTitle() == null || task.getTitle().trim().length() == 0){
             return new ResponseEntity("missed param: title",HttpStatus.NOT_ACCEPTABLE);
         }
 

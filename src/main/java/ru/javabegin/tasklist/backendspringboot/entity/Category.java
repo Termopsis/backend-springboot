@@ -19,7 +19,7 @@ public class Category {
     private String title;
 
     @Column(name = "completed_count", updatable = false)
-    private Long completedCount ;
+    private Long completedCount;
     private Long uncompletedCount;
     //private Collection<Task> tasksById;
 

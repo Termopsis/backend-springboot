@@ -19,6 +19,7 @@ import java.sql.Date;
 public class Task {
     private Long id;
     private String title;
+
     private Integer completed;
     private Date date;
     //private Long priorityId;
