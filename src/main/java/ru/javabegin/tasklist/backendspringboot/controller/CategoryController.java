@@ -5,8 +5,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.javabegin.tasklist.backendspringboot.entity.Category;
-import ru.javabegin.tasklist.backendspringboot.repo.CategoryRepository;
 import ru.javabegin.tasklist.backendspringboot.search.CategorySearchValues;
+import ru.javabegin.tasklist.backendspringboot.service.CategoryService;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -18,22 +18,22 @@ import java.util.NoSuchElementException;
 @RequestMapping("/category")
 public class CategoryController {
 
-    private CategoryRepository categoryRepository;
+    private CategoryService categoryService;
 
-    public CategoryController(CategoryRepository categoryRepository) {
-        System.out.println("categoryRepository: create CategoryController -------------------------------------------------");
-        this.categoryRepository = categoryRepository;
+    public CategoryController(CategoryService categoryService) {
+        System.out.println("CategoryController: create CategoryController -------------------------------------------------");
+        this.categoryService = categoryService;
     }
 
     @GetMapping("/all")
     public List<Category> findAll() {
         System.out.println("categoryRepository: findAll -------------------------------------------------");
 
-        return categoryRepository.findAllByOrderByTitleAsc();
+        return categoryService.findAllOrderedByTitleAsc();
     }
 
     @PostMapping("/add")
-    public ResponseEntity<Category> addCategory(@RequestBody Category category){
+    public ResponseEntity<Category> add(@RequestBody Category category){
         System.out.println("categoryRepository: addCategory -------------------------------------------------");
 
         if (category.getId() != null && category.getId() != 0){
@@ -44,7 +44,7 @@ public class CategoryController {
             return new ResponseEntity("miss param title", HttpStatus.NOT_ACCEPTABLE);
         }
 
-        return ResponseEntity.ok(categoryRepository.save(category));
+        return ResponseEntity.ok(categoryService.save(category));
     }
 
     @PutMapping("/update")
@@ -58,7 +58,7 @@ public class CategoryController {
             return new ResponseEntity("miss param title", HttpStatus.NOT_ACCEPTABLE);
         }
 
-        return ResponseEntity.ok(categoryRepository.save(category));
+        return ResponseEntity.ok(categoryService.save(category));
     }
 
     @GetMapping("find/id/{id}")
@@ -67,10 +67,10 @@ public class CategoryController {
         Category category = null;
 
         try {
-            category = categoryRepository.findById(id).get();
+            category = categoryService.findById(id);
         }catch (NoSuchElementException e){
             e.printStackTrace();
-            return new ResponseEntity("element with id = "+id+" not found",HttpStatus.NOT_ACCEPTABLE);
+            return new ResponseEntity("element with id = "+id+" not found", HttpStatus.NOT_ACCEPTABLE);
         }
 
         return ResponseEntity.ok(category);
@@ -82,7 +82,7 @@ public class CategoryController {
         System.out.println("categoryRepository: deleteById -------------------------------------------------");
 
         try {
-            categoryRepository.deleteById(id);
+            categoryService.deleteById(id);
         } catch (EmptyResultDataAccessException e) {
             e.printStackTrace();
             return new ResponseEntity("category with id = "+id+" not found",HttpStatus.NOT_ACCEPTABLE);
@@ -95,7 +95,7 @@ public class CategoryController {
     @PostMapping("/search")
     public ResponseEntity<List<Category>> search(@RequestBody CategorySearchValues categorySearchValues){
         System.out.println("categoryRepository: search -------------------------------------------------");
-        return ResponseEntity.ok(categoryRepository.findByTitle(categorySearchValues.getText()));
+        return ResponseEntity.ok(categoryService.findByTitle(categorySearchValues.getText()));
 
     }
 

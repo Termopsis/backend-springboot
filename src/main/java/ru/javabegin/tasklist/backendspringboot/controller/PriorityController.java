@@ -5,8 +5,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.javabegin.tasklist.backendspringboot.entity.Priority;
-import ru.javabegin.tasklist.backendspringboot.repo.PriorityRepository;
 import ru.javabegin.tasklist.backendspringboot.search.PrioritySearchValues;
+import ru.javabegin.tasklist.backendspringboot.service.PriorityService;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -18,21 +18,21 @@ import java.util.NoSuchElementException;
 @RequestMapping("/priority")
 public class PriorityController {
 
-    private PriorityRepository priorityRepository;
+    private PriorityService priorityService;
 
-    public PriorityController(PriorityRepository priorityRepository) {
+    public PriorityController(PriorityService priorityService) {
         System.out.println("PriorityController: create PriorityController -------------------------------------------------");
-        this.priorityRepository = priorityRepository;
+        this.priorityService = priorityService;
     }
 
     @GetMapping("/all")
     public List<Priority> findAll(){
         System.out.println("PriorityController: findAll -------------------------------------------------");
-        return priorityRepository.findAllByOrderByIdAsc();
+        return priorityService.findAllByOrderByIdAsc();
     }
 
     @PostMapping("/add")
-    public ResponseEntity<Priority> AddPriority(@RequestBody Priority priority){
+    public ResponseEntity<Priority> add(@RequestBody Priority priority){
         System.out.println("PriorityController: AddPriority -------------------------------------------------");
         if(priority.getId() != null && priority.getId() !=0){
             return new ResponseEntity("Redundant  param: Id must be null", HttpStatus.NOT_ACCEPTABLE);
@@ -46,7 +46,7 @@ public class PriorityController {
             return new ResponseEntity("miss param color", HttpStatus.NOT_ACCEPTABLE);
         }
 
-        return ResponseEntity.ok(priorityRepository.save(priority));
+        return ResponseEntity.ok(priorityService.save(priority));
     }
 
     @PutMapping("/update")
@@ -64,7 +64,7 @@ public class PriorityController {
             return new ResponseEntity("miss param color", HttpStatus.NOT_ACCEPTABLE);
         }
 
-        return ResponseEntity.ok(priorityRepository.save(priority));
+        return ResponseEntity.ok(priorityService.save(priority));
     }
 
     @GetMapping("/id/{id}")
@@ -73,7 +73,7 @@ public class PriorityController {
         Priority priority = null;
 
         try {
-            priority = priorityRepository.findById(id).get();
+            priority = priorityService.findById(id);
         }catch (NoSuchElementException e){
             e.printStackTrace();
             return new ResponseEntity("id = "+id+" not found", HttpStatus.NOT_ACCEPTABLE);
@@ -87,7 +87,7 @@ public class PriorityController {
         System.out.println("PriorityController: deleteById -------------------------------------------------");
 
         try {
-            priorityRepository.deleteById(id);
+            priorityService.deleteById(id);
         } catch (EmptyResultDataAccessException e) {
             return new ResponseEntity("priority with id = "+id+" not found",HttpStatus.NOT_ACCEPTABLE);
         }
@@ -99,7 +99,7 @@ public class PriorityController {
     @PostMapping("/search")
     public ResponseEntity<List<Priority>> search(@RequestBody PrioritySearchValues prioritySearchValues){
         System.out.println("PriorityController: search -------------------------------------------------");
-        return ResponseEntity.ok(priorityRepository.findByTitle(prioritySearchValues.getTitle()));
+        return ResponseEntity.ok(priorityService.findByTitle(prioritySearchValues.getTitle()));
 
     }
     

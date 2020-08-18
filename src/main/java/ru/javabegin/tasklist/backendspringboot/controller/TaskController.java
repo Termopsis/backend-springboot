@@ -9,8 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.javabegin.tasklist.backendspringboot.entity.Task;
-import ru.javabegin.tasklist.backendspringboot.repo.TaskRepository;
 import ru.javabegin.tasklist.backendspringboot.search.TaskSearchValues;
+import ru.javabegin.tasklist.backendspringboot.service.TaskService;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -19,38 +19,22 @@ import java.util.NoSuchElementException;
 @RequestMapping("/task")
 public class TaskController {
 
-    private TaskRepository taskRepository;
+    private TaskService taskService;
 
-    public TaskController(TaskRepository taskRepository) {
-        this.taskRepository = taskRepository;
+    public TaskController(TaskService taskService) {
+        this.taskService = taskService;
     }
 
     @GetMapping("/all")
     public List<Task> findAll(){
 
         System.out.println("TaskController: findAll -------------------------------------------------");
-        return taskRepository.findAll();
-
-    }
-
-    @GetMapping("/id/{id}")
-    public ResponseEntity<Task> getById(@PathVariable Long id){
-        System.out.println("TaskController: findById -------------------------------------------------");
-        Task task = null;
-
-        try {
-            task = taskRepository.findById(id).get();
-        }catch (NoSuchElementException e){
-            e.printStackTrace();
-            return new ResponseEntity("not found element by id "+id, HttpStatus.NOT_FOUND);
-        }
-
-        return ResponseEntity.ok(task);
+        return taskService.findAll();
 
     }
 
     @PostMapping("/add")
-    public ResponseEntity<Task> addTask(@RequestBody Task task){
+    public ResponseEntity<Task> add(@RequestBody Task task){
         System.out.println("TaskController: AddPriority -------------------------------------------------");
 
         //Должен быть пустой null или 0
@@ -66,7 +50,7 @@ public class TaskController {
         //Нужно проверять еще на дату
         //if task.getDate() ==
 
-        return ResponseEntity.ok(taskRepository.save(task));
+        return ResponseEntity.ok(taskService.save(task));
 
     }
 
@@ -84,7 +68,23 @@ public class TaskController {
             return new ResponseEntity("missed param: title",HttpStatus.NOT_ACCEPTABLE);
         }
 
-        return ResponseEntity.ok(taskRepository.save(task));
+        return ResponseEntity.ok(taskService.save(task));
+
+    }
+
+    @GetMapping("/id/{id}")
+    public ResponseEntity<Task> getById(@PathVariable Long id){
+        System.out.println("TaskController: findById -------------------------------------------------");
+        Task task = null;
+
+        try {
+            task = taskService.findById(id);
+        }catch (NoSuchElementException e){
+            e.printStackTrace();
+            return new ResponseEntity("not found element by id "+id, HttpStatus.NOT_FOUND);
+        }
+
+        return ResponseEntity.ok(task);
 
     }
 
@@ -93,7 +93,7 @@ public class TaskController {
         System.out.println("TaskController: deleteById -------------------------------------------------");
 
         try {
-            taskRepository.deleteById(id);
+            taskService.deleteById(id);
         }catch (EmptyResultDataAccessException e){
             e.printStackTrace();
             return new ResponseEntity("task with id = "+id+" not found",HttpStatus.NOT_ACCEPTABLE);
@@ -116,7 +116,7 @@ public class TaskController {
         Long category_id = taskSearchValues.getCategory_id() != null ? taskSearchValues.getCategory_id() : null;
 
 
-        return ResponseEntity.ok(taskRepository.findByParams(title,completed,priority_id,category_id));
+        return ResponseEntity.ok(taskService.search(title,completed,priority_id,category_id));
     }
 
 }

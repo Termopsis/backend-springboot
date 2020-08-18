@@ -4,7 +4,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.javabegin.tasklist.backendspringboot.entity.Stat;
-import ru.javabegin.tasklist.backendspringboot.repo.StatRepository;
+import ru.javabegin.tasklist.backendspringboot.service.StatService;
 
 /**
  * Created by Termopsis on 13.08.2020.
@@ -14,18 +14,17 @@ import ru.javabegin.tasklist.backendspringboot.repo.StatRepository;
 //@RequestMapping("/stat")
 public class StatController {
 
-    private final StatRepository statRepository;
-    private final Long id = 1l;
+    private final StatService statService;
 
-    public StatController(StatRepository statRepository) {
+    public StatController(StatService statService) {
         System.out.println("StatController: create StatController -------------------------------------------------");
-        this.statRepository = statRepository;
+        this.statService = statService;
     }
 
     @GetMapping("/stat")
     public ResponseEntity<Stat> findById(){
         System.out.println("StatController: findById -------------------------------------------------");
-        return ResponseEntity.ok(statRepository.findById(id).get());
+        return ResponseEntity.ok(statService.findById());
     }
 
 }
