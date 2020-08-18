@@ -5,6 +5,9 @@ package ru.javabegin.tasklist.backendspringboot.controller;
  */
 
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -104,7 +107,7 @@ public class TaskController {
     }
 
     @PostMapping("/search")
-    public ResponseEntity<List<Task>> search(@RequestBody TaskSearchValues taskSearchValues){
+    public ResponseEntity<Page<Task>> search(@RequestBody TaskSearchValues taskSearchValues){
         System.out.println("TaskController: search -------------------------------------------------");
 
         String title = taskSearchValues.getTitle() != null ? taskSearchValues.getTitle() : null;
@@ -115,8 +118,23 @@ public class TaskController {
 
         Long category_id = taskSearchValues.getCategory_id() != null ? taskSearchValues.getCategory_id() : null;
 
+        String sortColumn = taskSearchValues.getSortColumn() != null ? taskSearchValues.getSortColumn() : null;
+        String sortDirection = taskSearchValues.getSortDirection() != null ? taskSearchValues.getSortDirection() : null;
 
-        return ResponseEntity.ok(taskService.search(title,completed,priority_id,category_id));
+        Integer pageNumber = taskSearchValues.getPageNumber() != null ? taskSearchValues.getPageNumber() : null;
+        Integer pageSize = taskSearchValues.getPageSize() != null ? taskSearchValues.getPageSize() : null;
+
+        Sort.Direction direction = sortDirection == null || sortDirection.trim().length() == 0 || sortDirection.trim().equals("asc") ? Sort.Direction.ASC:Sort.Direction.DESC;
+
+        Sort sort = Sort.by(direction,sortColumn);
+
+        //Object page
+        PageRequest pageRequest = PageRequest.of(pageNumber,pageSize);
+
+        Page result = taskService.search(title,completed,priority_id,category_id,pageRequest);
+
+
+        return ResponseEntity.ok(result);
     }
 
 }

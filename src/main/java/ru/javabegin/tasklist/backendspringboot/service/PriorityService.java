@@ -4,12 +4,14 @@ import org.springframework.stereotype.Service;
 import ru.javabegin.tasklist.backendspringboot.entity.Priority;
 import ru.javabegin.tasklist.backendspringboot.repo.PriorityRepository;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 /**
  * Created by Termopsis on 16.08.2020.
  */
 @Service
+@Transactional
 public class PriorityService {
 
     private final PriorityRepository repository;

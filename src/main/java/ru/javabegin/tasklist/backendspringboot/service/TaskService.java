@@ -1,15 +1,19 @@
 package ru.javabegin.tasklist.backendspringboot.service;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import ru.javabegin.tasklist.backendspringboot.entity.Task;
 import ru.javabegin.tasklist.backendspringboot.repo.TaskRepository;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 /**
  * Created by Termopsis on 16.08.2020.
  */
 @Service
+@Transactional
 public class TaskService {
 
     private final TaskRepository repository;
@@ -32,8 +36,8 @@ public class TaskService {
         return repository.findById(id).get();
     }
 
-    public List<Task> search(String text, Integer completed, Long priorityId, Long categoryId){
-        return repository.findByParams(text,completed,priorityId,categoryId);
+    public Page<Task> search(String text, Integer completed, Long priorityId, Long categoryId, PageRequest pageRequest){
+        return repository.findByParams(text,completed,priorityId,categoryId, pageRequest);
     }
 
 }
