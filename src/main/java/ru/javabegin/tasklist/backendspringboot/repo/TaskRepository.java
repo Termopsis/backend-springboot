@@ -5,11 +5,13 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 import ru.javabegin.tasklist.backendspringboot.entity.Task;
 
 /**
  * Created by Termopsis on 14.08.2020.
  */
+@Repository
 public interface TaskRepository extends JpaRepository<Task, Long> {
 
     @Query("SELECT c from Task c where " +
@@ -30,6 +32,5 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
                             @Param("priorityId") Long priorityId,
                             @Param("categoryId") Long categoryId,
                             Pageable pageable);
-
 
 }

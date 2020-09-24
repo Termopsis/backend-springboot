@@ -20,6 +20,7 @@ import java.util.NoSuchElementException;
 
 @RestController
 @RequestMapping("/task")
+//@CrossOrigin(origins = "http://localhost:4200")
 public class TaskController {
 
     private TaskService taskService;
@@ -136,5 +137,4 @@ public class TaskController {
 
         return ResponseEntity.ok(result);
     }
-
 }

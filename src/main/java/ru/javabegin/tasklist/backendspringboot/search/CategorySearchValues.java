@@ -16,7 +16,4 @@ public class CategorySearchValues {
 
     private String text;
 
-
-
-
 }

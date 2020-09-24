@@ -12,6 +12,7 @@ import ru.javabegin.tasklist.backendspringboot.service.StatService;
 
 @RestController
 //@RequestMapping("/stat")
+//@CrossOrigin(origins = "http://localhost:4200")
 public class StatController {
 
     private final StatService statService;
@@ -26,5 +27,4 @@ public class StatController {
         System.out.println("StatController: findById -------------------------------------------------");
         return ResponseEntity.ok(statService.findById());
     }
-
 }

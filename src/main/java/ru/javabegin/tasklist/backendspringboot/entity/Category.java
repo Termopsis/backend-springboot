@@ -20,8 +20,9 @@ public class Category {
 
     @Column(name = "completed_count", updatable = false)
     private Long completedCount;
+
+    @Column(name = "uncompleted_count", updatable = false)
     private Long uncompletedCount;
-    //private Collection<Task> tasksById;
 
     //Аннотация уазывает что поле будет заполняться БД.
     //Т.к. в бд autoincrement
@@ -32,19 +33,11 @@ public class Category {
         return id;
     }
 
-//    public void setId(Long id) {
-//        this.id = id;
-//    }
-
     @Basic
     @Column(name = "title")
     public String getTitle() {
         return title;
     }
-
-//    public void setTitle(String title) {
-//        this.title = title;
-//    }
 
     @Basic
     @Column(name = "completed_count", updatable = false)
@@ -52,42 +45,10 @@ public class Category {
         return completedCount;
     }
 
-//    public void setCompletedCount(Long completedCount) {
-//        this.completedCount = completedCount;
-//    }
-
     @Basic
     @Column(name = "uncompleted_count", updatable = false)
     public Long getUncompletedCount() {
         return uncompletedCount;
     }
 
-//    public void setUncompletedCount(Long uncompletedCount) {
-//        this.uncompletedCount = uncompletedCount;
-//    }
-
-//    @Override
-//    public boolean equals(Object o) {
-//        if (this == o) return true;
-//        if (o == null || getClass() != o.getClass()) return false;
-//        Category category = (Category) o;
-//        return Objects.equals(id, category.id) &&
-//                Objects.equals(title, category.title) &&
-//                Objects.equals(completedCount, category.completedCount) &&
-//                Objects.equals(uncompletedCount, category.uncompletedCount);
-//    }
-//
-//    @Override
-//    public int hashCode() {
-//        return Objects.hash(id, title, completedCount, uncompletedCount);
-//    }
-
-//    @OneToMany(mappedBy = "categoryByCategoryId")
-//    public Collection<Task> getTasksById() {
-//        return tasksById;
-//    }
-
-//    public void setTasksById(Collection<Task> tasksById) {
-//        this.tasksById = tasksById;
-//    }
 }
