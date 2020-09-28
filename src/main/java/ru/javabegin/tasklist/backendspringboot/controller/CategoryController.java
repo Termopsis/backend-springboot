@@ -29,7 +29,6 @@ public class CategoryController {
     @GetMapping("/all")
     public List<Category> findAll() {
         System.out.println("categoryRepository: findAll -------------------------------------------------");
-
         return categoryService.findAllOrderedByTitleAsc();
     }
 
@@ -75,7 +74,6 @@ public class CategoryController {
         }
 
         return ResponseEntity.ok(category);
-
     }
 
     @DeleteMapping("/delete/id/{id}")
@@ -90,13 +88,11 @@ public class CategoryController {
         }
 
         return new ResponseEntity(HttpStatus.OK);
-
     }
 
     @PostMapping("/search")
     public ResponseEntity<List<Category>> search(@RequestBody CategorySearchValues categorySearchValues){
         System.out.println("categoryRepository: search -------------------------------------------------");
-        return ResponseEntity.ok(categoryService.findByTitle(categorySearchValues.getText()));
-
+        return ResponseEntity.ok(categoryService.findByTitle(categorySearchValues.getTitle()));
     }
 }

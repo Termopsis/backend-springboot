@@ -16,7 +16,7 @@ import java.util.NoSuchElementException;
  */
 @RestController
 @RequestMapping("/priority")
-//@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "http://localhost:4200")
 public class PriorityController {
 
     private PriorityService priorityService;
@@ -94,13 +94,11 @@ public class PriorityController {
         }
 
         return new ResponseEntity(HttpStatus.OK);
-
     }
 
     @PostMapping("/search")
     public ResponseEntity<List<Priority>> search(@RequestBody PrioritySearchValues prioritySearchValues){
         System.out.println("PriorityController: search -------------------------------------------------");
         return ResponseEntity.ok(priorityService.findByTitle(prioritySearchValues.getTitle()));
-
     }
 }

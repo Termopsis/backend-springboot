@@ -20,7 +20,7 @@ import java.util.NoSuchElementException;
 
 @RestController
 @RequestMapping("/task")
-//@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "http://localhost:4200")
 public class TaskController {
 
     private TaskService taskService;
@@ -31,10 +31,8 @@ public class TaskController {
 
     @GetMapping("/all")
     public List<Task> findAll(){
-
         System.out.println("TaskController: findAll -------------------------------------------------");
         return taskService.findAll();
-
     }
 
     @PostMapping("/add")
@@ -52,10 +50,8 @@ public class TaskController {
         }
 
         //Нужно проверять еще на дату
-        //if task.getDate() ==
 
         return ResponseEntity.ok(taskService.save(task));
-
     }
 
     @PostMapping("/update")
@@ -73,7 +69,6 @@ public class TaskController {
         }
 
         return ResponseEntity.ok(taskService.save(task));
-
     }
 
     @GetMapping("/id/{id}")
@@ -89,7 +84,6 @@ public class TaskController {
         }
 
         return ResponseEntity.ok(task);
-
     }
 
     @DeleteMapping("/delete/id/{id}")
@@ -104,7 +98,6 @@ public class TaskController {
         }
 
         return ResponseEntity.ok(HttpStatus.OK);
-
     }
 
     @PostMapping("/search")
