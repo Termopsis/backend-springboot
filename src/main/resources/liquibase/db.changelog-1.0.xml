@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet id="1.0.0" author="roman.koshelev">
+        <createTable tableName="category">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+
+            <column name="title" type="VARCHAR(45)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="completed_count" type="BIGINT" defaultValue='0'>
+            </column>
+
+            <column name="uncompleted_count" type="BIGINT" defaultValue='0'>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="1.0.1" author="roman.koshelev">
+        <createTable tableName="priority">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+
+            <column name="title" type="VARCHAR(45)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="color" type="VARCHAR(45)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="1.0.2" author="roman.koshelev">
+        <createTable tableName="stat">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+
+            <column name="completed_total" type="BIGINT" defaultValue='0'>
+            </column>
+
+            <column name="uncompleted_total" type="BIGINT" defaultValue='0'>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="1.0.3" author="roman.koshelev">
+        <createTable tableName="task">
+                <column name="id" type="BIGINT" autoIncrement="true">
+                    <constraints primaryKey="true" nullable="false"/>
+                </column>
+
+                <column name="title" type="VARCHAR(100)">
+                    <constraints nullable="false"/>
+                </column>
+
+                <column name="completed" type="INT" defaultValue='0'>
+                </column>
+
+                <column name="date" type="DATETIME" defaultValue="NULL">
+                </column>
+
+                <column name="category_id" type="BIGINT" defaultValue="NULL">
+                </column>
+
+                <column name="priority_id" type="BIGINT" defaultValue="NULL">
+                </column>
+
+        </createTable>
+    </changeSet>
+
+    <changeSet id="1.0.4" author="roman.koshelev">
+        <addForeignKeyConstraint baseColumnNames="category_id"
+                                 baseTableName="task"
+                                 constraintName="fk_category"
+                                 onDelete="SET NULL"
+                                 onUpdate="RESTRICT"
+                                 referencedColumnNames="id"
+                                 referencedTableName="category"/>
+    </changeSet>
+
+    <changeSet id="1.0.5" author="roman.koshelev">
+        <addForeignKeyConstraint baseColumnNames="priority_id"
+                                 baseTableName="task"
+                                 constraintName="fk_priority"
+                                 onDelete="SET NULL"
+                                 onUpdate="RESTRICT"
+                                 referencedColumnNames="id"
+                                 referencedTableName="priority"/>
+    </changeSet>
+    
+</databaseChangeLog>
