@@ -1,4 +1,4 @@
-package com.termo.tasklist.backendspringboot.config;
+package com.termo.tasklist.backendspringboot.config.data;
 
 import com.termo.tasklist.backendspringboot.entity.Stat;
 import com.termo.tasklist.backendspringboot.repo.StatRepository;
