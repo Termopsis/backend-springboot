@@ -4,9 +4,9 @@ plugins {
     id 'java'
 }
 
-group = 'ru.javabegin.tasklist'
-version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '1.8'
+group = 'com.tasklist'
+version = '1.0.1'
+sourceCompatibility = '11'
 
 configurations {
     compileOnly {
@@ -20,16 +20,22 @@ repositories {
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-    implementation 'org.springframework.boot:spring-boot-starter-data-rest'
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation group: 'org.liquibase', name: 'liquibase-core', version: '4.4.1'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-thymeleaf', version: '2.5.2'
     compileOnly 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     runtimeOnly 'mysql:mysql-connector-java'
     annotationProcessor 'org.projectlombok:lombok'
+
     testImplementation('org.springframework.boot:spring-boot-starter-test') {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
     }
-    implementation 'org.springframework.boot:spring-boot-starter-security'
+
+//    compile 'org.dbunit:dbunit:2.7.0'
+//    testImplementation group: 'org.dbunit', name: 'dbunit', version: '2.7.0'
+
 }
 
 test {
