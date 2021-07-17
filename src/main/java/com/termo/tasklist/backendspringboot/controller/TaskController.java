@@ -4,16 +4,17 @@ package com.termo.tasklist.backendspringboot.controller;
  * Created by Termopsis on 14.08.2020.
  */
 
+import com.termo.tasklist.backendspringboot.entity.Task;
+import com.termo.tasklist.backendspringboot.search.TaskSearchValues;
+import com.termo.tasklist.backendspringboot.service.TaskService;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import com.termo.tasklist.backendspringboot.entity.Task;
-import com.termo.tasklist.backendspringboot.search.TaskSearchValues;
-import com.termo.tasklist.backendspringboot.service.TaskService;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -26,16 +27,19 @@ public class TaskController {
     private TaskService taskService;
 
     public TaskController(TaskService taskService) {
+        System.out.println("TaskController: create TaskController -------------------------------------------------");
         this.taskService = taskService;
     }
 
     @GetMapping("/all")
+    @PreAuthorize("hasAuthority('user:read')")
     public List<Task> findAll(){
         System.out.println("TaskController: findAll -------------------------------------------------");
         return taskService.findAll();
     }
 
     @PostMapping("/add")
+    @PreAuthorize("hasAuthority('user:write')")
     public ResponseEntity<Task> add(@RequestBody Task task){
         System.out.println("TaskController: AddPriority -------------------------------------------------");
 
@@ -55,6 +59,7 @@ public class TaskController {
     }
 
     @PostMapping("/update")
+    @PreAuthorize("hasAuthority('user:write')")
     public ResponseEntity update(@RequestBody Task task){
         System.out.println("TaskController: update -------------------------------------------------");
 
@@ -72,6 +77,7 @@ public class TaskController {
     }
 
     @GetMapping("/id/{id}")
+    @PreAuthorize("hasAuthority('user:read')")
     public ResponseEntity<Task> getById(@PathVariable Long id){
         System.out.println("TaskController: findById -------------------------------------------------");
         Task task = null;
@@ -87,6 +93,7 @@ public class TaskController {
     }
 
     @DeleteMapping("/delete/id/{id}")
+    @PreAuthorize("hasAuthority('user:write')")
     public ResponseEntity deleteById(@PathVariable Long id){
         System.out.println("TaskController: deleteById -------------------------------------------------");
 
@@ -101,6 +108,7 @@ public class TaskController {
     }
 
     @PostMapping("/search")
+    @PreAuthorize("hasAuthority('user:read')")
     public ResponseEntity<Page<Task>> search(@RequestBody TaskSearchValues taskSearchValues){
         System.out.println("TaskController: search -------------------------------------------------");
 

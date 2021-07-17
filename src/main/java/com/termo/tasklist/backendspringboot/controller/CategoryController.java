@@ -1,12 +1,13 @@
 package com.termo.tasklist.backendspringboot.controller;
 
+import com.termo.tasklist.backendspringboot.entity.Category;
+import com.termo.tasklist.backendspringboot.search.CategorySearchValues;
 import com.termo.tasklist.backendspringboot.service.CategoryService;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import com.termo.tasklist.backendspringboot.entity.Category;
-import com.termo.tasklist.backendspringboot.search.CategorySearchValues;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -27,12 +28,14 @@ public class CategoryController {
     }
 
     @GetMapping("/all")
+    @PreAuthorize("hasAuthority('user:read')")
     public List<Category> findAll() {
         System.out.println("categoryRepository: findAll -------------------------------------------------");
         return categoryService.findAllOrderedByTitleAsc();
     }
 
     @PostMapping("/add")
+    @PreAuthorize("hasAuthority('user:write')")
     public ResponseEntity<Category> add(@RequestBody Category category){
         System.out.println("categoryRepository: addCategory -------------------------------------------------");
 
@@ -48,6 +51,7 @@ public class CategoryController {
     }
 
     @PutMapping("/update")
+    @PreAuthorize("hasAuthority('user:write')")
     public ResponseEntity update(@RequestBody Category category){
         System.out.println("categoryRepository: update -------------------------------------------------");
         if (category.getId() == null && category.getId() == 0){
@@ -62,6 +66,7 @@ public class CategoryController {
     }
 
     @GetMapping("find/id/{id}")
+    @PreAuthorize("hasAuthority('user:read')")
     public ResponseEntity<Category> findById(@PathVariable Long id){
         System.out.println("categoryRepository: findById -------------------------------------------------");
         Category category = null;
@@ -77,6 +82,7 @@ public class CategoryController {
     }
 
     @DeleteMapping("/delete/id/{id}")
+    @PreAuthorize("hasAuthority('user:write')")
     public ResponseEntity<Category> deleteById(@PathVariable Long id){
         System.out.println("categoryRepository: deleteById -------------------------------------------------");
 
@@ -91,6 +97,7 @@ public class CategoryController {
     }
 
     @PostMapping("/search")
+    @PreAuthorize("hasAuthority('user:read')")
     public ResponseEntity<List<Category>> search(@RequestBody CategorySearchValues categorySearchValues){
         System.out.println("categoryRepository: search -------------------------------------------------");
         return ResponseEntity.ok(categoryService.findByTitle(categorySearchValues.getTitle()));

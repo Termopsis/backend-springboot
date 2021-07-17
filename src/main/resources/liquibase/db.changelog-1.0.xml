@@ -79,6 +79,39 @@
     </changeSet>
 
     <changeSet id="1.0.4" author="roman.koshelev">
+        <createTable tableName="users">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+
+            <column name="email" type="VARCHAR(255)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+
+            <column name="first_name" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="last_name" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="password" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="role" type="VARCHAR(20)" defaultValue="USER">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="status" type="VARCHAR(20)" defaultValue="ACTIVE">
+                <constraints nullable="false"/>
+            </column>
+
+        </createTable>
+    </changeSet>
+
+    <changeSet id="1.0.5" author="roman.koshelev">
         <addForeignKeyConstraint baseColumnNames="category_id"
                                  baseTableName="task"
                                  constraintName="fk_category"
@@ -88,7 +121,7 @@
                                  referencedTableName="category"/>
     </changeSet>
 
-    <changeSet id="1.0.5" author="roman.koshelev">
+    <changeSet id="1.0.6" author="roman.koshelev">
         <addForeignKeyConstraint baseColumnNames="priority_id"
                                  baseTableName="task"
                                  constraintName="fk_priority"

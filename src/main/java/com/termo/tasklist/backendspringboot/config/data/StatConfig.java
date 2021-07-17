@@ -8,14 +8,11 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class StatConfig {
-
     @Bean
-    CommandLineRunner commandLineRunner(StatRepository statRepository){
+    CommandLineRunner commandLineRunnerStat(StatRepository statRepository){
         return args -> {
             Stat STAT = new Stat();
             statRepository.save(STAT);
         };
-
     }
-
 }
