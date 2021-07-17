@@ -11,7 +11,7 @@ public class StatConfig {
     @Bean
     CommandLineRunner commandLineRunnerStat(StatRepository statRepository){
         return args -> {
-            Stat STAT = new Stat();
+            Stat STAT = new Stat(1l,0l,0l);
             statRepository.save(STAT);
         };
     }

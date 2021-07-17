@@ -21,7 +21,6 @@ import java.util.NoSuchElementException;
 
 @RestController
 @RequestMapping("/task")
-@CrossOrigin(origins = "http://localhost:4200")
 public class TaskController {
 
     private TaskService taskService;

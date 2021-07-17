@@ -45,10 +45,10 @@
                 <constraints primaryKey="true" nullable="false"/>
             </column>
 
-            <column name="completed_total" type="BIGINT" defaultValue='0'>
+            <column name="completed_total" type="BIGINT" defaultValue="0">
             </column>
 
-            <column name="uncompleted_total" type="BIGINT" defaultValue='0'>
+            <column name="uncompleted_total" type="BIGINT" defaultValue="0">
             </column>
         </createTable>
     </changeSet>
@@ -63,7 +63,7 @@
                     <constraints nullable="false"/>
                 </column>
 
-                <column name="completed" type="INT" defaultValue='0'>
+                <column name="completed" type="INT" defaultValue="0">
                 </column>
 
                 <column name="date" type="DATETIME" defaultValue="NULL">
